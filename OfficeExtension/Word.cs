@@ -4,7 +4,7 @@ using Microsoft.Office.Interop.Word;
 
 namespace OfficeExtension
 {
-    public class WordDocument
+    public class WordDocument : IDisposable
     {
         private string _NEW_ROW_TEXT_CONTENT = "\r\a";
 
@@ -100,6 +100,31 @@ namespace OfficeExtension
         {
             range.Text = text;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+                this.Close();
+                this.Quit();
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
 
 
     }
