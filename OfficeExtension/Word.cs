@@ -7,6 +7,7 @@ namespace OfficeExtension
     public class WordDocument
     {
         private string _NEW_ROW_TEXT_CONTENT = "\r\a";
+        private float _PAGE_WIDTH = 424.68F;
 
         private Application _app;
         private Document _doc;
@@ -42,25 +43,25 @@ namespace OfficeExtension
         public void AppendImageOnTableColumn(string imagePath, string tableTitle, int columnIndex)
         {
             Table table = _FindTable(tableTitle);
-            Range insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
-            if (insertRange == null)
+            Cell insertCell = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            if (insertCell == null)
             {
                 _AppendTableRow(table);
             }
-            insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
-            _InsertPictureInRange(imagePath, insertRange);
+            insertCell = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            _InsertPictureInCell(imagePath, insertCell);
         }
 
         public void AppendTextOnTableColumn(string text, string tableTitle, int columnIndex)
         {
             Table table = _FindTable(tableTitle);
-            Range insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
-            if (insertRange == null)
+            Cell insertCell = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            if (insertCell == null)
             {
                 _AppendTableRow(table);
             }
-            insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
-            _InsertTextInRange(text, insertRange);
+            insertCell = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            _InsertTextInCell(text, insertCell);
         }
 
         private Table _FindTable(string tableTitle)
@@ -73,14 +74,14 @@ namespace OfficeExtension
             return null;
         }
 
-        private Range _FindTableEmptyCellOnSpecificCollumn(Table table, int columnIndex)
+        private Cell _FindTableEmptyCellOnSpecificCollumn(Table table, int columnIndex)
         {
             for (int i = 1; i < table.Rows.Count + 1; i++)
             {
                 Cell cell = table.Cell(i, columnIndex);
                 if (cell.Range.Text == _NEW_ROW_TEXT_CONTENT && cell.Range.InlineShapes.Count == 0)
                 {
-                    return cell.Range;
+                    return cell;
                 }
             }
             return null;
@@ -92,13 +93,26 @@ namespace OfficeExtension
             table.Rows.Add(ref oMissing);
         }
 
-        private void _InsertPictureInRange(string path, Range range)
+        private void _InsertPictureInCell(string path, Cell cell)
         {
-            range.InlineShapes.AddPicture(path);
+            InlineShape shape = cell.Range.InlineShapes.AddPicture(path);
+            _ResizeImageToPageWidth(shape);
         }
-        private void _InsertTextInRange(string text, Range range)
+
+        private void _ResizeImageToPageWidth(InlineShape shape)
         {
-            range.Text = text;
+            shape.Width = 424.68F;
+        }
+
+        private void _InsertTextInCell(string text, Cell cell)
+        {
+            cell.Range.Text = text;
+            _ScaleCellHeight(3, cell);
+        }
+
+        private void _ScaleCellHeight(float scale,Cell cell)
+        {
+            cell.Height *= scale; 
         }
 
 
