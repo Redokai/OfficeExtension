@@ -123,11 +123,18 @@ namespace OfficeExtension
 
         private void _InsertPictureInRange(string path, Range range)
         {
-            range.InlineShapes.AddPicture(path);
+            InlineShape shape = range.InlineShapes.AddPicture(path);
+            _ResizeImageToPageWidth(shape);
         }
+
+        private void _ResizeImageToPageWidth(InlineShape shape)
+        {
+            shape.Width = 424.68F;
+        }
+
         private void _InsertTextInRange(string text, Range range)
         {
-            range.Text = text;
+            range.Text = "\n" + text + "\n";
         }
 
         #region IDisposable Support
