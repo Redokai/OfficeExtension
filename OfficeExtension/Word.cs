@@ -20,7 +20,7 @@ namespace OfficeExtension
         public Document OpenFile(string filePath)
         {
             this._app = new Application();
-            this._doc = this._app.Documents.Open(filePath, Visible: true, ReadOnly: true);
+            this._doc = this._app.Documents.Open(filePath, Visible: false, ReadOnly: false);
             this._doc.Activate();
             this._doc.ActiveWindow.View.ReadingLayout = false;
             return _doc;
@@ -51,9 +51,33 @@ namespace OfficeExtension
             _InsertPictureInRange(imagePath, insertRange);
         }
 
+        public void AppendImageOnTableColumn(string imagePath, int tableIndex, int columnIndex)
+        {
+            Table table = _FindTable(tableIndex);
+            Range insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            if (insertRange == null)
+            {
+                _AppendTableRow(table);
+            }
+            insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            _InsertPictureInRange(imagePath, insertRange);
+        }
+
         public void AppendTextOnTableColumn(string text, string tableTitle, int columnIndex)
         {
             Table table = _FindTable(tableTitle);
+            Range insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            if (insertRange == null)
+            {
+                _AppendTableRow(table);
+            }
+            insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
+            _InsertTextInRange(text, insertRange);
+        }
+
+        public void AppendTextOnTableColumn(string text, int tableIndex, int columnIndex)
+        {
+            Table table = _FindTable(tableIndex);
             Range insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
             if (insertRange == null)
             {
@@ -71,6 +95,11 @@ namespace OfficeExtension
                     return table;
             }
             return null;
+        }
+
+        private Table _FindTable(int tableIndex)
+        {
+            return this._doc.Tables[tableIndex];
         }
 
         private Range _FindTableEmptyCellOnSpecificCollumn(Table table, int columnIndex)

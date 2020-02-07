@@ -1,5 +1,7 @@
-﻿using OfficeExtension;
-using System;
+﻿using System;
+using System.Data;
+using System.IO;
+using BluePrismInterface.Implementations;
 
 namespace DocImage
 {
@@ -7,34 +9,29 @@ namespace DocImage
     {
         static void Main(string[] args)
         {
-            string TABLE_TITLE = "BreakDown";
-            int COLUMN_INDEX = 1;
-            int ROW_INDEX = 1;
-            string IMAGE_PATH = @"C:\Users\Red\source\repos\DocImage\DocImage\gaivota.jpg";
-            string DOCUMENT_TEMPLATE_PATH = @"C:\Users\Red\source\repos\DocImage\DocImage\template.docx";
-            string DOCUMENT_OUTPUT_PATH = @"C:\Users\Red\source\repos\DocImage\DocImage\form.docx";
+            DataTable dataTable = new DataTable();
 
-            ;
+            dataTable.Columns.Add("FileImage");
+            dataTable.Columns.Add("Texto");
+            dataTable.Columns.Add("TableIndex", typeof(Int32));
 
-            using (WordDocument DocClass = new WordDocument())
+            DataRow row = null;
+
+            for (int i = 1; i < 10; i++)
             {
-                try
-                {
-                    DocClass.OpenFile(DOCUMENT_TEMPLATE_PATH);
-                    DocClass.AppendImageOnTableColumn(IMAGE_PATH, TABLE_TITLE, COLUMN_INDEX);
-                    DocClass.AppendTextOnTableColumn("TESTE", TABLE_TITLE, COLUMN_INDEX);
-                    DocClass.AppendImageOnTableColumn(IMAGE_PATH, TABLE_TITLE, COLUMN_INDEX);
-                    DocClass.AppendTextOnTableColumn("TESTE2", TABLE_TITLE, COLUMN_INDEX);
-                    DocClass.AppendImageOnTableColumn(IMAGE_PATH, TABLE_TITLE, COLUMN_INDEX);
-                    DocClass.AppendTextOnTableColumn("TESTE3", TABLE_TITLE, COLUMN_INDEX);
-                    DocClass.SaveDocAs(DOCUMENT_OUTPUT_PATH);
-                }
-                catch (System.Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                    Console.ReadKey();
-                }
+                row = dataTable.NewRow();
+
+                row.SetField("FileImage", @"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\gaivota.jpg");
+                row.SetField("Texto", $"Aqui vai um texto {i}!");
+                row.SetField<int>("TableIndex", 1);
+
+                dataTable.Rows.Add(row);
             }
+
+            File.Copy(@"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\template.docx", @"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\form.docx", true);
+            WordAdapter WordAdap = new WordAdapter(@"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\form.docx");
+            WordAdap.InsertImagesIntoWordFromDataTable(dataTable);
+
         }
     }
 }
