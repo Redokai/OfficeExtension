@@ -17,13 +17,24 @@ namespace DocImage
 
             DataRow row = null;
 
+            for (int i = 1; i < 2; i++)
+            {
+                row = dataTable.NewRow();
+
+                row.SetField("FileImage", @"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\gaivota.jpg");
+                row.SetField("Texto", $"Aqui vai um texto da tabela 1 {i}!");
+                row.SetField<int>("TableIndex", 1);
+
+                dataTable.Rows.Add(row);
+            }
+
             for (int i = 1; i < 10; i++)
             {
                 row = dataTable.NewRow();
 
                 row.SetField("FileImage", @"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\gaivota.jpg");
-                row.SetField("Texto", $"Aqui vai um texto {i}!");
-                row.SetField<int>("TableIndex", 1);
+                row.SetField("Texto", $"Aqui vai um texto da tabela 2 {i}!");
+                row.SetField<int>("TableIndex", 2);
 
                 dataTable.Rows.Add(row);
             }
