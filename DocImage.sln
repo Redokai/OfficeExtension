@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocImage", "DocImage\DocIma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeExtension", "OfficeExtension\OfficeExtension.csproj", "{57D84B65-4BD7-467B-912A-4795F7FBBDDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{166414B3-25A4-43E1-BDF1-94A9C5C04218}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{57D84B65-4BD7-467B-912A-4795F7FBBDDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D84B65-4BD7-467B-912A-4795F7FBBDDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D84B65-4BD7-467B-912A-4795F7FBBDDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{166414B3-25A4-43E1-BDF1-94A9C5C04218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166414B3-25A4-43E1-BDF1-94A9C5C04218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166414B3-25A4-43E1-BDF1-94A9C5C04218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166414B3-25A4-43E1-BDF1-94A9C5C04218}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
