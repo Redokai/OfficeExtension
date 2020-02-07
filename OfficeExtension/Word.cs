@@ -17,13 +17,6 @@ namespace OfficeExtension
             this._app = null;
         }
 
-        public Document CreateFile()
-        {
-            this._app = new Application();
-            this._doc = this._app.Documents.Add();
-            return _doc;
-        }
-
         public Document OpenFile(string filePath)
         {
             this._app = new Application();
@@ -39,11 +32,11 @@ namespace OfficeExtension
         }
         public void Close()
         {
-            this._doc.Close();
+            this._doc.Close(SaveChanges: false);
         }
         public void Quit()
         {
-            this._app.Quit();
+            this._app.Quit(SaveChanges: false);
         }
 
         public void AppendImageOnTableColumn(string imagePath, string tableTitle, int columnIndex)
@@ -57,11 +50,6 @@ namespace OfficeExtension
             insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
             _InsertPictureInRange(imagePath, insertRange);
         }
-        public void AppendImageOnTableCell(string imagePath, string tableTitle, Range cell)
-        {
-            Table table = _FindTable(tableTitle);
-            _InsertPictureInRange(imagePath, cell);
-        }
 
         public void AppendTextOnTableColumn(string text, string tableTitle, int columnIndex)
         {
@@ -73,12 +61,6 @@ namespace OfficeExtension
             }
             insertRange = _FindTableEmptyCellOnSpecificCollumn(table, columnIndex);
             _InsertTextInRange(text, insertRange);
-        }
-
-        public void AppendTextOnTableCell(string text, string tableTitle, Range cell)
-        {
-            Table table = _FindTable(tableTitle);
-            _AppendTextInRange(text, cell);
         }
 
         private Table _FindTable(string tableTitle)
@@ -117,10 +99,6 @@ namespace OfficeExtension
         private void _InsertTextInRange(string text, Range range)
         {
             range.Text = text;
-        }
-        private void _AppendTextInRange(string text, Range range)
-        {
-            range.Text += "\n" + text;
         }
 
 
