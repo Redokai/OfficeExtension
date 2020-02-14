@@ -87,6 +87,19 @@ namespace OfficeExtension
             _InsertTextInRange(text, insertRange);
         }
 
+        public void InsertTextOnTableCell(string text, int tableIndex,int rowIndex, int columnIndex)
+        {
+            Table table = _FindTable(tableIndex);
+            while (table.Rows.Count < rowIndex)
+            {
+                _AppendTableRow(table);
+            }
+
+            Range insertRange = _FindCellRange(table, rowIndex, columnIndex);
+
+            _InsertTextInRange(text, insertRange);
+        }
+
         private Table _FindTable(string tableTitle)
         {
             foreach (Table table in this._doc.Tables)
@@ -115,6 +128,11 @@ namespace OfficeExtension
             return null;
         }
 
+        private Range _FindCellRange(Table table, int rowIndex, int columnIndex)
+        {
+            return table.Cell(rowIndex, columnIndex).Range;
+        }
+
         private void _AppendTableRow(Table table)
         {
             Object oMissing = System.Reflection.Missing.Value;
@@ -123,31 +141,24 @@ namespace OfficeExtension
 
         private void _InsertPictureInRange(string path, Range range)
         {
-            InlineShape shape = range.InlineShapes.AddPicture(path);
-            _ResizeImageToPageWidth(shape);
+            range.InlineShapes.AddPicture(path);
         }
-
-        private void _ResizeImageToPageWidth(InlineShape shape)
-        {
-            shape.Width = 424.68F;
-        }
-
         private void _InsertTextInRange(string text, Range range)
         {
-            range.Text = "\n" + text + "\n";
+            if (string.IsNullOrEmpty(text))
+            {
+                text = " ";
+            }
+            range.Text = text;
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
                 this.Close();
                 this.Quit();
 
