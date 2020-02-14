@@ -14,9 +14,6 @@ namespace BluePrismInterface.Implementations
         private string _ROW_INDEX_LABEL = "Row";
         private string _SUBTITLE_LABEL = "Texto";
         private string _TEXT_LABEL = "Text";
-        private string _PNRX_LABEL = "PNRX";
-        private string _Flow_LABEL = "Flow";
-        private string _System_LABEL = "System";
         private int _INSERT_COLUMN_INDEX = 1;
 
         public WordAdapter(string documentFilePath)
