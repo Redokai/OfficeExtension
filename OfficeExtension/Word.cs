@@ -95,7 +95,7 @@ namespace OfficeExtension
                 _AppendTableRow(table);
             }
 
-            Range insertRange = _FindCellRange(table, rowIndex, columnIndex);
+            Range insertRange = table.Cell(rowIndex, columnIndex).Range;
 
             _InsertTextInRange(text, insertRange);
         }
@@ -126,11 +126,6 @@ namespace OfficeExtension
                 }
             }
             return null;
-        }
-
-        private Range _FindCellRange(Table table, int rowIndex, int columnIndex)
-        {
-            return table.Cell(rowIndex, columnIndex).Range;
         }
 
         private void _AppendTableRow(Table table)
