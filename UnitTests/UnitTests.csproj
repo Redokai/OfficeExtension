@@ -51,8 +51,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WordAdapterUnitTests.cs" />
     <Compile Include="WordUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +68,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BluePrismInterface\BluePrismInterface.csproj">
+      <Project>{c906edfe-5484-40de-894a-d80492a42d74}</Project>
+      <Name>BluePrismInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OfficeExtension\OfficeExtension.csproj">
       <Project>{57d84b65-4bd7-467b-912a-4795f7fbbddc}</Project>
       <Name>OfficeExtension</Name>

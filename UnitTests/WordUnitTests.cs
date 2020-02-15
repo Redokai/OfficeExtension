@@ -57,11 +57,11 @@ namespace UnitTests
     {
         string TABLE_TITLE = "BreakDown";
         int COLUMN_INDEX = 0;
-        string DOCUMENT_TEMPLATE_PATH_SUCCESS = Directory.GetCurrentDirectory() + @"\Mocks\form.docx";
+        string NEW_ROW_TEXT_CONTENT = "\r\a";
+        string DOCUMENT_TEMPLATE_PATH_SUCCESS = Directory.GetCurrentDirectory() + @"\Mocks\template.docx";
         string DOCUMENT_TEMPLATE_PATH_FAILURE = Directory.GetCurrentDirectory() + @"\Mocks\form.docx";
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
         public void Find_Success_1()
         {
             //CHECK IF FIRST EMPTY CELL FOUND IS CURRENTLY EMPTY, EXPECTED: EMPTY
@@ -79,6 +79,7 @@ namespace UnitTests
 
                 //ASSERT
                 Assert.IsTrue(first_empty_cell_on_template.InlineShapes.Count == 0);
+                Assert.IsTrue(first_empty_cell_on_template.Text == NEW_ROW_TEXT_CONTENT);
             }
         }
 
@@ -293,8 +294,8 @@ namespace UnitTests
         string NEW_ROW_TEXT_CONTENT = "\r\a";
         int COLUMN_INDEX_SUCCESS = 1;
         int ROW_INDEX_SUCCESS = 1;
-        int COLUMN_INDEX_FAILURE = 2;
-        int ROW_INDEX_FAILURE = 5;
+        int COLUMN_INDEX_FAILURE = 3;
+        int ROW_INDEX_FAILURE = 7;
         string DOCUMENT_TEMPLATE_PATH = Directory.GetCurrentDirectory() + @"\Mocks\template.docx";
 
         [TestMethod]
