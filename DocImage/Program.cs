@@ -31,7 +31,15 @@ namespace DocImage
 
                 dataTable.Rows.Add(row);
             }
+            try
+            {
 
+            }
+            catch (Exception err)
+            {
+
+                throw(err);
+            }
 
             File.Copy(@"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\template.docx", @"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\form.docx", true);
             WordAdapter WordAdap = new WordAdapter(@"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\form.docx");

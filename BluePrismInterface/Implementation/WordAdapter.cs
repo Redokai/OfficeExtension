@@ -5,7 +5,7 @@ using System;
 
 namespace BluePrismInterface.Implementations
 {
-    public class WordAdapter : IBluePrismAdapter
+    public class WordAdapter : IBluePrismAdapter, IDisposable
     {
         private string _documentFilePath;
         private string _IMAGE_FILE_PATH_LABEL = "FileImage";
@@ -31,14 +31,10 @@ namespace BluePrismInterface.Implementations
                 {
                     string imageFilePath = row.Field<string>(_IMAGE_FILE_PATH_LABEL);
                     string imageSubtitle = row.Field<string>(_SUBTITLE_LABEL);
+                    int tableIndex = Decimal.ToInt32((Decimal)row[_TABLE_INDEX_LABEL]);
 
-                    if (Int32.TryParse(row[_TABLE_INDEX_LABEL].ToString(), out int tableIndex))
-                    {
-                        DocClass.AppendImageOnTableColumn(imageFilePath, tableIndex, _INSERT_COLUMN_INDEX);
-                        DocClass.AppendTextOnTableColumn(imageSubtitle, tableIndex, _INSERT_COLUMN_INDEX);
-                    }
-                    else
-                        throw new Exception("err");
+                    DocClass.AppendImageOnTableColumn(imageFilePath, tableIndex, _INSERT_COLUMN_INDEX);
+                    DocClass.AppendTextOnTableColumn(imageSubtitle, tableIndex, _INSERT_COLUMN_INDEX);
                 }
 
                 DocClass.SaveDocAs(this._documentFilePath);
@@ -47,22 +43,47 @@ namespace BluePrismInterface.Implementations
 
         public void InserTextIntoWordTableFromDataTable(DataTable datatable)
         {
-            using (WordDocument DocClass = new WordDocument())
+            try
             {
-                DocClass.OpenFile(this._documentFilePath);
-
-                foreach (DataRow row in datatable.Rows)
+                using (WordDocument DocClass = new WordDocument())
                 {
-                    string text = row.Field<string>(_TEXT_LABEL);
-                    int tableIndex = Convert.ToInt32(row.Field<int>(_TABLE_INDEX_LABEL));
-                    int columnIndex = Convert.ToInt32(row.Field<int>(_COLUMN_INDEX_LABEL));
-                    int rowIndex = Convert.ToInt32(row.Field<int>(_ROW_INDEX_LABEL));
+                    DocClass.OpenFile(this._documentFilePath);
 
-                    DocClass.InsertTextOnTableCell(text, tableIndex, rowIndex, columnIndex);
+                    foreach (DataRow row in datatable.Rows)
+                    {
+                        string text = row.Field<string>(_TEXT_LABEL);
+                        int tableIndex = Decimal.ToInt32((Decimal)row[_TABLE_INDEX_LABEL]);
+                        int columnIndex = Decimal.ToInt32((Decimal)row[_COLUMN_INDEX_LABEL]);
+                        int rowIndex = Decimal.ToInt32((Decimal)row[_ROW_INDEX_LABEL]);
+
+                        DocClass.InsertTextOnTableCell(text, tableIndex, rowIndex, columnIndex);
+                    }
+
+                    DocClass.SaveDocAs(this._documentFilePath);
                 }
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.ToString());
+            }
 
-                DocClass.SaveDocAs(this._documentFilePath);
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                disposedValue = true;
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
