@@ -52,9 +52,9 @@ namespace BluePrismInterface.Implementations
                     foreach (DataRow row in datatable.Rows)
                     {
                         string text = row.Field<string>(_TEXT_LABEL);
-                        int tableIndex = Decimal.ToInt32((Decimal)row[_TABLE_INDEX_LABEL]);
-                        int columnIndex = Decimal.ToInt32((Decimal)row[_COLUMN_INDEX_LABEL]);
-                        int rowIndex = Decimal.ToInt32((Decimal)row[_ROW_INDEX_LABEL]);
+                        int tableIndex = Int32.Parse(row[_TABLE_INDEX_LABEL].ToString());
+                        int columnIndex = Int32.Parse(row[_COLUMN_INDEX_LABEL].ToString());
+                        int rowIndex = Int32.Parse(row[_ROW_INDEX_LABEL].ToString());
 
                         DocClass.InsertTextOnTableCell(text, tableIndex, rowIndex, columnIndex);
                     }
