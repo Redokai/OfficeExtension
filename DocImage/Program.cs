@@ -9,25 +9,24 @@ namespace DocImage
     {
         static void Main(string[] args)
         {
+            string DOCUMENT_TEMPLATE_PATH = Directory.GetCurrentDirectory() + @"\template.docx";
+            string DOCUMENT_FORM_PATH = Directory.GetCurrentDirectory() + @"\form.docx";
+
             DataTable dataTable = new DataTable();
 
             dataTable.Columns.Add("Text");
-            dataTable.Columns.Add("Row", typeof(Int32));
-            dataTable.Columns.Add("Column", typeof(Int32));
-            dataTable.Columns.Add("TableIndex", typeof(Int32));
+            dataTable.Columns.Add("Token");
 
             Random rnd = new Random();
 
             DataRow row = null;
 
-            for (int i = 1; i < 5; i++)
+            for (int i = 1; i < 2; i++)
             {
                 row = dataTable.NewRow();
 
-                row.SetField("Text", "txt" + i.ToString());
-                row.SetField("Row", i);
-                row.SetField("Column", rnd.Next(1,3));
-                row.SetField<int>("TableIndex", 1);
+                row.SetField("Text", "Replaced Successfully");
+                row.SetField("Token", "$FindAndReplaceMe$");
 
                 dataTable.Rows.Add(row);
             }
@@ -41,9 +40,9 @@ namespace DocImage
                 throw(err);
             }
 
-            File.Copy(@"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\template.docx", @"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\form.docx", true);
-            WordAdapter WordAdap = new WordAdapter(@"C:\Users\p.de.barros.mesquita\source\repos\ARMS_Integracao\OfficeExtension\DocImage\form.docx");
-            WordAdap.InserTextIntoWordTableFromDataTable(dataTable);
+            File.Copy(DOCUMENT_TEMPLATE_PATH, DOCUMENT_FORM_PATH, true);
+            WordAdapter WordAdap = new WordAdapter(DOCUMENT_FORM_PATH);
+            WordAdap.ReplaceTexts(dataTable);
 
         }
     }
