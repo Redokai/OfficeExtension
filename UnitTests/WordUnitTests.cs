@@ -11,7 +11,7 @@ namespace UnitTests
     {
         string TABLE_TITLE_SUCCESS = "BreakDown";
         string TABLE_TITLE_FAILURE = "breakdown";
-        string DOCUMENT_TEMPLATE_PATH = Directory.GetCurrentDirectory() + @"\Mocks\template.docx";
+        string DOCUMENT_TEMPLATE_PATH = Directory.GetCurrentDirectory() + @"\Mocks\modelo_1.docx";
 
         [TestMethod]
         public void Find_Success_1()
