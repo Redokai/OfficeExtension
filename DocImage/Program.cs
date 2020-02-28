@@ -12,9 +12,9 @@ namespace DocImage
             DataTable dataTable = new DataTable();
 
             dataTable.Columns.Add("Text");
-            dataTable.Columns.Add("Row", typeof(Int32));
-            dataTable.Columns.Add("Column", typeof(Int32));
-            dataTable.Columns.Add("TableIndex", typeof(Int32));
+            dataTable.Columns.Add("Row", typeof(Decimal));
+            dataTable.Columns.Add("Column", typeof(Decimal));
+            dataTable.Columns.Add("TableIndex", typeof(Decimal));
 
             Random rnd = new Random();
 
