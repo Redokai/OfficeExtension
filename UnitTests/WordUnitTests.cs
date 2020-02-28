@@ -345,4 +345,39 @@ namespace UnitTests
             }
         }
     }
+
+    [TestClass]
+    public class ReplaceTokenByTextTest
+    {
+        string FIND_TOKEN_LABEL = "$FindAndReplaceMe$";
+        string REPLACE_TEXT = "Replaced Successfully";
+        string DOCUMENT_TEMPLATE_PATH = Directory.GetCurrentDirectory() + @"\Mocks\template.docx";
+
+        [TestMethod]
+        public void ReplaceTokenByTextTest_Success_1()
+        {
+            // ASSERTS IF CELL TEXT IS CHANGED AFTER INSERT
+
+            //ARRANGE
+            using (WordDocument DocClass = new WordDocument())
+            {
+                //ACT
+                DocClass.OpenFile(DOCUMENT_TEMPLATE_PATH);
+                DocClass.ReplaceTokenByText(FIND_TOKEN_LABEL, REPLACE_TEXT);
+                PrivateObject DocPriv = new PrivateObject(DocClass);
+                Application app = (Application)DocPriv.GetFieldOrProperty("_app");
+                Document doc = (Document)DocPriv.GetFieldOrProperty("_doc");
+                int content_start = doc.Content.Start;
+                int content_end = doc.Content.End;
+                doc.Range(content_start, content_end).Select();
+                app.Selection.Find.ClearFormatting();
+                object replace_text = REPLACE_TEXT;
+                bool find_result = app.Selection.Find.Execute(ref replace_text, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+
+                //ASSERT
+                Assert.IsTrue(find_result);
+            }
+        }
+        
+    }
 }

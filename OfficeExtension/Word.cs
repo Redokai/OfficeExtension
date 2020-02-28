@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.Office.Interop.Word;
 
 namespace OfficeExtension
@@ -97,6 +98,21 @@ namespace OfficeExtension
             Range insertRange = table.Cell(rowIndex, columnIndex).Range;
 
             _InsertTextInRange(text, insertRange);
+        }
+
+        public void ReplaceTokenByText(string token, string text)
+        {
+            Find findObject = this._app.Selection.Find;
+            findObject.ClearFormatting();
+            findObject.Text = token;
+            findObject.Replacement.ClearFormatting();
+            findObject.Replacement.Text = text;
+
+            object missing = Missing.Value;
+            object replaceAll = WdReplace.wdReplaceAll;
+            findObject.Execute(missing, missing, missing, missing, missing,
+                missing, missing, missing, missing, missing,
+                ref replaceAll, missing, missing, missing, missing);
         }
 
         private Table _FindTable(string tableTitle)

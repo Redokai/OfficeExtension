@@ -13,6 +13,7 @@ namespace BluePrismInterface.Implementations
         private string _COLUMN_INDEX_LABEL = "Column";
         private string _ROW_INDEX_LABEL = "Row";
         private string _SUBTITLE_LABEL = "Texto";
+        private string _TOKEN_LABEL = "Token";
         private string _TEXT_LABEL = "Text";
         private int _INSERT_COLUMN_INDEX = 1;
 
@@ -67,6 +68,31 @@ namespace BluePrismInterface.Implementations
                 throw new Exception(err.ToString());
             }
 
+        }
+
+        public void ReplaceTexts(DataTable datatable)
+        {
+            try
+            {
+                using (WordDocument DocClass = new WordDocument())
+                {
+                    DocClass.OpenFile(this._documentFilePath);
+
+                    foreach (DataRow row in datatable.Rows)
+                    {
+                        string text = row.Field<string>(_TEXT_LABEL);
+                        string token = row.Field<string>(_TOKEN_LABEL);
+
+                        DocClass.ReplaceTokenByText(token, text);
+                    }
+
+                    DocClass.SaveDocAs(this._documentFilePath);
+                }
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.ToString());
+            }
         }
 
         #region IDisposable Support
