@@ -95,6 +95,23 @@ namespace BluePrismInterface.Implementations
             }
         }
 
+        public void FindAndReplace(string token, string text)
+        {
+            try
+            {
+                using (WordDocument DocClass = new WordDocument())
+                {
+                    DocClass.OpenFile(this._documentFilePath);
+                    DocClass.ReplaceTokenByText(token, text);
+                    DocClass.SaveDocAs(this._documentFilePath);
+                }
+            }
+            catch (Exception err)
+            {
+                throw new Exception(err.ToString());
+            }
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
