@@ -54,6 +54,7 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LayoutBusinessUnitTests.cs" />
     <Compile Include="WordAdapterUnitTests.cs" />
     <Compile Include="WordUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +72,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzulBusiness\AzulBusiness.csproj">
+      <Project>{D630D36F-7CF2-40A3-B835-3072645D12B7}</Project>
+      <Name>AzulBusiness</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BluePrismInterface\BluePrismInterface.csproj">
       <Project>{c906edfe-5484-40de-894a-d80492a42d74}</Project>
       <Name>BluePrismInterface</Name>

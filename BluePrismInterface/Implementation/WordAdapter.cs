@@ -15,7 +15,9 @@ namespace BluePrismInterface.Implementations
         private string _SUBTITLE_LABEL = "Texto";
         private string _TOKEN_LABEL = "Token";
         private string _TEXT_LABEL = "Text";
+        private string _TABLE_TITLE = "TableTitle";
         private int _INSERT_COLUMN_INDEX = 1;
+        private int _INSERT_ROW_INDEX = 1;
 
         public WordAdapter(string documentFilePath)
         {
@@ -32,10 +34,10 @@ namespace BluePrismInterface.Implementations
                 {
                     string imageFilePath = row.Field<string>(_IMAGE_FILE_PATH_LABEL);
                     string imageSubtitle = row.Field<string>(_SUBTITLE_LABEL);
-                    int tableIndex = Decimal.ToInt32((Decimal)row[_TABLE_INDEX_LABEL]);
+                    string tableTitle = row.Field<string>(_TABLE_TITLE);
 
-                    DocClass.AppendImageOnTableColumn(imageFilePath, tableIndex, _INSERT_COLUMN_INDEX);
-                    DocClass.AppendTextOnTableColumn(imageSubtitle, tableIndex, _INSERT_COLUMN_INDEX);
+                    DocClass.AppendImageOnTableColumn(imageFilePath, tableTitle, _INSERT_COLUMN_INDEX);
+                    DocClass.AppendTextOnTableColumn(imageSubtitle, tableTitle, _INSERT_COLUMN_INDEX);
                 }
 
                 DocClass.SaveDocAs(this._documentFilePath);
@@ -54,8 +56,8 @@ namespace BluePrismInterface.Implementations
                     {
                         string text = row.Field<string>(_TEXT_LABEL);
                         int tableIndex = Decimal.ToInt32((Decimal)row[_TABLE_INDEX_LABEL]);
-                        int columnIndex = Decimal.ToInt32((Decimal)row[_COLUMN_INDEX_LABEL]);
-                        int rowIndex = Decimal.ToInt32((Decimal)row[_ROW_INDEX_LABEL]);
+                        int columnIndex = _INSERT_COLUMN_INDEX;
+                        int rowIndex = _INSERT_ROW_INDEX;
 
                         DocClass.InsertTextOnTableCell(text, tableIndex, rowIndex, columnIndex);
                     }
